@@ -54,31 +54,24 @@ bool address_check_prefix(const uint8_t *addr, uint32_t address_type) {
           ((uint32_t)addr[2] << 8) | ((uint32_t)addr[3]));
 }
 
-#if USE_ETHEREUM
+#if 1
 #include "sha3.h"
 
-void ethereum_address_checksum(const uint8_t *addr, char *address, bool rskip60,
-                               uint32_t chain_id) {
+void __ethereum_address_checksum(const uint8_t *addr, int size, char *address) {
   const char *hex = "0123456789abcdef";
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < size; i++) {
     address[i * 2] = hex[(addr[i] >> 4) & 0xF];
     address[i * 2 + 1] = hex[addr[i] & 0xF];
   }
-  address[40] = 0;
+//  address[40] = 0;
 
   SHA3_CTX ctx;
   uint8_t hash[32];
   keccak_256_Init(&ctx);
-  if (rskip60) {
-    char prefix[16];
-    int prefix_size = bn_format_uint64(chain_id, NULL, "0x", 0, 0, false,
-                                       prefix, sizeof(prefix));
-    keccak_Update(&ctx, (const uint8_t *)prefix, prefix_size);
-  }
-  keccak_Update(&ctx, (const uint8_t *)address, 40);
+  keccak_Update(&ctx, (const uint8_t *)address, size*2);
   keccak_Final(&ctx, hash);
 
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < size; i++) {
     if (hash[i] & 0x80 && address[i * 2] >= 'a' && address[i * 2] <= 'f') {
       address[i * 2] -= 0x20;
     }

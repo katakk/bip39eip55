@@ -60,9 +60,9 @@ const char *mnemonic_generate(int strength) {
 static CONFIDENTIAL char mnemo[24 * 10];
 
 const char *mnemonic_from_data(const uint8_t *data, int len) {
-  if (len % 4 || len < 16 || len > 32) {
-    return 0;
-  }
+//  if (len % 4 || len < 16 || len > 32) {
+ //   return 0;
+//  }
 
   uint8_t bits[32 + 1];
 
@@ -110,9 +110,9 @@ int mnemonic_to_entropy(const char *mnemonic, uint8_t *entropy) {
   n++;
 
   // check number of words
-  if (n != 12 && n != 18 && n != 24) {
-    return 0;
-  }
+//  if (n != 12 && n != 18 && n != 24) {
+//    return 0;
+//  }
 
   char current_word[10];
   uint32_t j, k, ki, bi = 0;

@@ -57,13 +57,13 @@
 
 // implement BIP39 caching
 #ifndef USE_BIP39_CACHE
-#define USE_BIP39_CACHE 1
+#define USE_BIP39_CACHE 0
 #define BIP39_CACHE_SIZE 4
 #endif
 
 // support Ethereum operations
 #ifndef USE_ETHEREUM
-#define USE_ETHEREUM 0
+#define USE_ETHEREUM 1
 #endif
 
 // support Graphene operations (STEEM, BitShares)
